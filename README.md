@@ -1,1 +1,1 @@
-# Vue.-Lab1-2
+# Vue Lab1-2
