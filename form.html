@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <title>Vue.js &mdash; Forms</title>
+  </head>
+  <body>
+    <div id="app">
+      <div class="container w-75">
+        <h1 class="my-4 text-center">Vue.js Forms</h1>
+        <form
+          class="row needs-validation"
+          novalidate
+          v-if="isUserDataVisible == false"
+          v-on:submit.prevent="onSubmit"
+        >
+          <div class="mb-3">
+            <label for="postTitle" class="form-label">Post Title</label>
+            <input
+              type="text"
+              id="postTitle"
+              class="form-control"
+              v-model="post.title"
+              required
+            />
+            <div class="invalid-feedback">
+              Please enter a message in the textarea.
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="postContent" class="form-label">Post Content</label>
+            <textarea
+              class="form-control"
+              id="postContent"
+              rows="3"
+              required
+              v-model="post.content"
+            ></textarea>
+          </div>
+          <div class="mb-3">
+            <label class="form-label d-block mb-2" for="">Post Category</label>
+            <div
+              v-for="category in postData.categories"
+              :key="category"
+              class="form-check form-check-inline"
+            >
+              <input
+                class="form-check-input"
+                type="radio"
+                name="categories"
+                :id="category"
+                :value="category"
+                v-model="post.category"
+                required
+              />
+              <label class="form-check-label" :for="category">
+                {{category}}
+              </label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="series" class="form-label">Series</label>
+            <select
+              class="form-select form-select-lg"
+              id="series"
+              v-model="post.series"
+              required
+            >
+              <option selected disabled value="">Please select one</option>
+              <option v-for="option in postData.series" :value="option">
+                {{option}}
+              </option>
+            </select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label d-block mb-2" for="">Post Shared On</label>
+            <div
+              v-for="media in postData.sharedOn"
+              class="form-check form-check-inline"
+            >
+              <input
+                class="form-check-input"
+                type="checkbox"
+                required
+                :id="media"
+                :value="media"
+                name="sharedOn"
+                v-model="post.sharedOn"
+              />
+              <label class="form-check-label" :for="media">{{media}}</label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="form-check">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="sendImmdiatly"
+                v-model="post.sendImmdiatly"
+                true-value="immediatly"
+                false-value="later"
+              />
+              <label class="form-check-label" for="sendImmdiatly">
+                Send Immediatly
+              </label>
+            </div>
+          </div>
+          <div class="mb-3">
+            <button
+              type="submit"
+              class="btn btn-primary w-25"
+              v-on:click.prevent="isUserDataVisible = true"
+            >
+              Next
+            </button>
+          </div>
+        </form>
+
+        <!-- Enterd Form Data -->
+        <div
+          v-if="isUserDataVisible"
+          class="border border-primary row my-2 p-4 w-50 mx-auto"
+        >
+          <p>post title: {{post.title}}</p>
+          <p>post content: {{post.content}}</p>
+          <p>select post category: {{post.category}}</p>
+          <p>post series: {{post.series}}</p>
+          <p>select post shred on: {{post.sharedOn}}</p>
+          <p>post sendImmdiatly: {{post.sendImmdiatly}}</p>
+
+          <div class="d-flex justify-content-between mt-4">
+            <button
+              class="btn btn-secondary"
+              v-on:click.prevent="isUserDataVisible = false"
+            >
+              Previous
+            </button>
+
+            <button class="btn btn-success" type="submit">Send Form</button>
+          </div>
+
+          <div class="mb-3"></div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"
+    ></script>
+
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="https://unpkg.com/vee-validate"></script>
+
+    <script src="./form.js"></script>
+  </body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <!-- Vue3- Toastify -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/vue3-toastify@0.1.4/dist/index.css"
+      rel="stylesheet"
+    />
+    <!-- Bootstrap Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+    <!-- Custom Style Sheet -->
+    <link rel="stylesheet" href="style.css" />
+    <title>Vuejs Lab 1</title>
+  </head>
+  <body>
+    <main id="app" class="container p-2">
+      <!-- HEADER -->
+      <header
+        class="d-flex justify-content-between align-items-center p-2 w-100"
+      >
+        <h1 class="text-center my-4">Programming Books List</h1>
+        <button @click="showWishList" class="btn fs-4">
+          <i class="bi bi-bag-heart-fill"></i>
+        </button>
+      </header>
+      <!-- BOOKS -->
+      <section v-if="showBooks" class="container my-4">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+          <div v-for="book in books" :key="book.isbn13" class="col">
+            <!-- Book Card -->
+            <div
+              :class="[book.price < 50 ? 'less' : 'more']"
+              class="card h-100"
+            >
+              <img class="card-img-top" :src="book.image" :alt="book.title" />
+              <div class="card-body">
+                <h5 class="card-title">{{book.title}}</h5>
+                <h6 class="lead text-muted">{{book.subtitle}}</h6>
+                <p class="card-text fs-3 font-weight-bold">
+                  {{currencyFormatter(book.price)}}
+                </p>
+              </div>
+              <div class="card-footer">
+                <button
+                  @click.once.prevent="addToWhishlist(book)"
+                  class="btn btn-primary"
+                >
+                  Add to Whishlist
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- WHISLIST -->
+      <section v-else class="conatiner">
+        <p
+          v-if="wishlist.length === 0"
+          class="alert alert-warning text-center"
+          role="alert"
+        >
+          Your Wishlist is Emapty! try Add some Books
+        </p>
+        <div v-else class="table-responsive">
+          <h2 class="text-center">My Wishlist</h2>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Book Title</th>
+                <th scope="col">Price</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="book in wishlist" :key="book.isbn13">
+                <td>{{book.title}}</td>
+                <td>{{currencyFormatter(book.price)}}</td>
+                <td class="d-flex flex-row align-items-center gap-4">
+                  <a
+                    class="text-decoration-none btn btn-outline-primary btn-sm"
+                    target="_blank"
+                    :href="book.url"
+                  >
+                    <i class="bi bi-box-arrow-up-right"></i>
+                  </a>
+                  <button
+                    @click="removeFromWhishlist(book)"
+                    class="btn btn-outline-danger btn-sm"
+                  >
+                    <i class="bi bi-trash3-fill"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+      integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"
+      integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V"
+      crossorigin="anonymous"
+    ></script>
+    <script src="./books-data.js"></script>
+    <!-- Vue3 Script File -->
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>
